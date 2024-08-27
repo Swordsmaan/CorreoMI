@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CorreoMI.Models.Usuario>
+
+@{
+    ViewBag.Title = "Index";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Listado de Usuarios</h2>
+    if (User.IsInRole("CU002"))
+    {
+        <p>
+            @Html.ActionLink("Crear nuevo", "Create")
+        </p>
+    }
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rol)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rol.Nombre)
+                </td>
+                <td>
+                    @if (User.IsInRole("CU005"))
+                    {
+                        @Html.ActionLink("Editar", "Edit", new { id = item.UsuarioId })
+                    } |
+                    @if (User.IsInRole("CU006"))
+                    {
+                        @Html.ActionLink("Detalles", "Details", new { id = item.UsuarioId })
+                    } |
+                    @if (User.IsInRole("CU004"))
+                    {
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.UsuarioId })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}

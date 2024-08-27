@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BDDMailModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Funcionalidad">
+    <Key>
+      <PropertyRef Name="FuncionalidadId" />
+    </Key>
+    <Property Name="FuncionalidadId" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Menu" Relationship="Self.FK_Menu_Funcionalidad" FromRole="Funcionalidad" ToRole="Menu" />
+    <NavigationProperty Name="Rol" Relationship="Self.RolFuncionalidad" FromRole="Funcionalidad" ToRole="Rol" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="MenuId" />
+    </Key>
+    <Property Name="MenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FuncionalidadId" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Funcionalidad" Relationship="Self.FK_Menu_Funcionalidad" FromRole="Menu" ToRole="Funcionalidad" />
+  </EntityType>
+  <EntityType Name="Rol">
+    <Key>
+      <PropertyRef Name="RolId" />
+    </Key>
+    <Property Name="RolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Default" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+    <NavigationProperty Name="Funcionalidad" Relationship="Self.RolFuncionalidad" FromRole="Rol" ToRole="Funcionalidad" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="UsuarioId" />
+    </Key>
+    <Property Name="UsuarioId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="320" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RolId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Rol" Relationship="Self.FK_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
+    <NavigationProperty Name="Correo_Log" Relationship="BDDMailModel.FK_Correo_Log_Usuario" FromRole="Usuario" ToRole="Correo_Log" />
+  </EntityType>
+  <Association Name="FK_Menu_Funcionalidad">
+    <End Role="Funcionalidad" Type="Self.Funcionalidad" Multiplicity="0..1" />
+    <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Funcionalidad">
+        <PropertyRef Name="FuncionalidadId" />
+      </Principal>
+      <Dependent Role="Menu">
+        <PropertyRef Name="FuncionalidadId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Usuario_Rol">
+    <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rol">
+        <PropertyRef Name="RolId" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="RolId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RolFuncionalidad">
+    <End Role="Funcionalidad" Type="Self.Funcionalidad" Multiplicity="*" />
+    <End Role="Rol" Type="Self.Rol" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="BDDMailEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Funcionalidad" EntityType="Self.Funcionalidad" />
+    <EntitySet Name="Menu" EntityType="Self.Menu" />
+    <EntitySet Name="Rol" EntityType="Self.Rol" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <AssociationSet Name="FK_Menu_Funcionalidad" Association="Self.FK_Menu_Funcionalidad">
+      <End Role="Funcionalidad" EntitySet="Funcionalidad" />
+      <End Role="Menu" EntitySet="Menu" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Usuario_Rol" Association="Self.FK_Usuario_Rol">
+      <End Role="Rol" EntitySet="Rol" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="RolFuncionalidad" Association="Self.RolFuncionalidad">
+      <End Role="Funcionalidad" EntitySet="Funcionalidad" />
+      <End Role="Rol" EntitySet="Rol" />
+    </AssociationSet>
+    <EntitySet Name="Correo_Log" EntityType="BDDMailModel.Correo_Log" />
+    <AssociationSet Name="FK_Correo_Log_Usuario" Association="BDDMailModel.FK_Correo_Log_Usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Correo_Log" EntitySet="Correo_Log" />
+    </AssociationSet>
+    <EntitySet Name="UsuarioActivacion" EntityType="BDDMailModel.UsuarioActivacion" />
+  </EntityContainer>
+  <EntityType Name="Correo_Log">
+    <Key>
+      <PropertyRef Name="CorreoId" />
+    </Key>
+    <Property Name="CorreoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="From" Type="String" Nullable="false" MaxLength="320" FixedLength="false" Unicode="false" />
+    <Property Name="To" Type="String" Nullable="false" MaxLength="320" FixedLength="false" Unicode="false" />
+    <Property Name="Subject" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Message" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="UsuarioId" Type="Int32" />
+    <NavigationProperty Name="Usuario" Relationship="BDDMailModel.FK_Correo_Log_Usuario" FromRole="Correo_Log" ToRole="Usuario" />
+  </EntityType>
+  <Association Name="FK_Correo_Log_Usuario">
+    <End Type="BDDMailModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+    <End Type="BDDMailModel.Correo_Log" Role="Correo_Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="UsuarioId" />
+      </Principal>
+      <Dependent Role="Correo_Log">
+        <PropertyRef Name="UsuarioId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UsuarioActivacion">
+    <Key>
+      <PropertyRef Name="UsuarioId" />
+    </Key>
+    <Property Name="UsuarioId" Type="Int32" Nullable="false" />
+    <Property Name="ActivationCode" Type="Guid" Nullable="false" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<CorreoMI.Models.Correo_Log>
+
+@{
+    ViewBag.Title = "Index";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Listado de Emails</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.To)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.From)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.To)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @if (User.IsInRole("CU013"))
+                    {
+                        @Html.ActionLink("Detalles", "Details", new { id = item.CorreoId })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}

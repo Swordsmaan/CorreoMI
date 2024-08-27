@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BDDMailModelStoreContainer" CdmEntityContainer="BDDMailEntities">
+    <EntitySetMapping Name="Funcionalidad">
+      <EntityTypeMapping TypeName="BDDMailModel.Funcionalidad">
+        <MappingFragment StoreEntitySet="Funcionalidad">
+          <ScalarProperty Name="FuncionalidadId" ColumnName="FuncionalidadId" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menu">
+      <EntityTypeMapping TypeName="BDDMailModel.Menu">
+        <MappingFragment StoreEntitySet="Menu">
+          <ScalarProperty Name="MenuId" ColumnName="MenuId" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FuncionalidadId" ColumnName="FuncionalidadId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rol">
+      <EntityTypeMapping TypeName="BDDMailModel.Rol">
+        <MappingFragment StoreEntitySet="Rol">
+          <ScalarProperty Name="RolId" ColumnName="RolId" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Default" ColumnName="Default" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario">
+      <EntityTypeMapping TypeName="BDDMailModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RolId" ColumnName="RolId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="RolFuncionalidad" TypeName="BDDMailModel.RolFuncionalidad" StoreEntitySet="RolFuncionalidad">
+      <EndProperty Name="Funcionalidad">
+        <ScalarProperty Name="FuncionalidadId" ColumnName="FuncionalidadId" />
+      </EndProperty>
+      <EndProperty Name="Rol">
+        <ScalarProperty Name="RolId" ColumnName="RolId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Correo_Log">
+      <EntityTypeMapping TypeName="BDDMailModel.Correo_Log">
+        <MappingFragment StoreEntitySet="Correo_Log">
+          <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="To" ColumnName="To" />
+          <ScalarProperty Name="From" ColumnName="From" />
+          <ScalarProperty Name="CorreoId" ColumnName="CorreoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UsuarioActivacion">
+      <EntityTypeMapping TypeName="BDDMailModel.UsuarioActivacion">
+        <MappingFragment StoreEntitySet="UsuarioActivacion">
+          <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+          <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

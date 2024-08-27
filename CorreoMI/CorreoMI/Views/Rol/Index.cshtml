@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CorreoMI.Models.Rol>
+
+@{
+    ViewBag.Title = "Index";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Listado de Roles</h2>
+
+    if (User.IsInRole("CU008"))
+    {
+        <p>
+            @Html.ActionLink("Crear nuevo", "Create")
+        </p>
+    }
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Default)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Default)
+                </td>
+                <td>
+                    @if (User.IsInRole("CU010"))
+                    {
+                        @Html.ActionLink("Editar", "Edit", new { id = item.RolId })
+                    } |
+                    @if (User.IsInRole("CU011"))
+                    {
+                        @Html.ActionLink("Detalles", "Details", new { id = item.RolId })
+                    } |
+                    @if (User.IsInRole("CU009"))
+                    {
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.RolId })
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
